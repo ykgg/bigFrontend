@@ -1,0 +1,79 @@
+一、webpack5 新特性 
+  相对于4 来说，5里并没有新增太多的功能。
+  对于5来说，更多的内容都是性能的提升
+
+webpack5 开启服务器
+
+缓存
+ 在 webpack5 当中默认情况下都会将被打包的内容放在内存中做缓存，它是一个增量打包，也就是说下一次打包的时候它会
+ 检测当前模块的内容是否发生了变化，如果是才会重新打，否则就直接使用上一次的缓存，这样就可以减少每次打包的
+ 时间消耗
+
+资源模块
+  资源模块是一种模块类型，它允许使用资源文件（字体、图标）并且不需要再单独的去配置相应的 loader 
+  asset/source   raw-loader 
+  asset/inline   url-loader + limit 
+  asset/resource file-loader  
+  asset   parser dataUrlCondition maxSize  
+
+URIs 
+  webpack5 支持请求中添加协议 
+  data base64 原始编码
+
+chunkIds和 moduleIds优化 
+  chunk : 一个入口最终肯定会产生一个文件，这个文件就是一个chunk,我们称之为代码块
+  module : 在 webpack 中一个文件就是一个模块 
+  一个入口文件里机可能又会引入 A 和 B 这二个模块，而它最终只产出了一个 chunk ，叫 main.js 
+  那么此时 A 和 B 就是这个 chunk 中的模块 
+  
+  在 webpack 打包过程中我们有很多时候都会将不同的模块文件分开打包至独立的文件 
+  在 webpack 打包的后的结果中会有多个chunk 
+  
+  在 webpack5 可以通过 optimization 来设置 chunkIds 的值
+    在开发环境下默认是 named ,它会以文件的完整路径做为名称，可识别及调试性是最好的 
+    在生产环境下默认是 deterministic ，它会使用模块的名称 hash值（3位数字）来做为 chunk 名称，此时....
+    size : 以模块的体积大小 chunk 来做为名称   
+
+polyfill
+  我们可以将它看做是一个将满了 node 核心模块的包  
+
+tree shaking 
+  在 webpack4 当中它所谓的树摇规则就是如果我们使用了 import导入了某个变量，那么它就会在当前模块中去查找这个变量是否
+  使用过，如果没有使用它就将这个变量清除 
+
+模块联邦
+  它的核心目的就是为了实现模块共享 （ 微前端 + 工程化 ）
+  
+  有不同的应用，但是不同的应用当中存在相同的组件模块，我们想让他们做到通用
+  此时就可以使用 webpack5 当中的模块联邦配置 
+  
+  在 A 应用当中将组件导出  
+    {
+        name: 名称， 在外部会被当做当前应用的唯一标识，可以通过它来查找所有的资源
+        filename: 最后我们导出的模块都是以文件的形式存在，因此我们需要有一个名字
+        exposes：{} 键值对，就是模块 ID 与 路径  
+    }
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
